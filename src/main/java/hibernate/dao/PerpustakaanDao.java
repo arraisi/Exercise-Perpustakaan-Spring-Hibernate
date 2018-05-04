@@ -26,24 +26,43 @@ public class PerpustakaanDao {
         Query query = sessionFactory.getCurrentSession().createQuery("from Peminjam");
         return query.list();
     }
-
+//SAVE OR UPDATE PEMINJAM
     @Transactional(readOnly = false)
     public void simpanPeminjam(Peminjam peminjam) {
         sessionFactory.getCurrentSession().saveOrUpdate(peminjam);
     }
+//FIND BY ID PEMINJAM    
+    @Transactional(readOnly = true)
+    public Peminjam findByIdPeminjam(int id) {
+        Query query = sessionFactory.getCurrentSession()
+                .createQuery("FROM Peminjam p WHERE p.id = :id ")
+                .setParameter("id", id);
+        return (Peminjam) query.list().get(0);
+    }
+//DELETE PEMINJAM    
+     @Transactional(readOnly = false)
+    public void deletePeminjam(Peminjam peminjam) {
+        sessionFactory.getCurrentSession().delete(peminjam);
+    }
+    
 //BUKU   
-
+//FIND ALL BUKU
     @Transactional(readOnly = true)
     public List<Buku> findAllBuku() {
         Query query = sessionFactory.getCurrentSession().createQuery("from Buku");
         return query.list();
     }
-
+//SAVE OR UPDATE BUKU
     @Transactional(readOnly = false)
     public void simpanBuku(Buku buku) {
         sessionFactory.getCurrentSession().saveOrUpdate(buku);
     }
-
+//DELETE BUKU    
+     @Transactional(readOnly = false)
+    public void deleteBuku(Buku buku) {
+        sessionFactory.getCurrentSession().delete(buku);
+    }
+//FIND BY ID BUKU
     @Transactional(readOnly = true)
     public Buku findByIdBuku(int id) {
         Query query = sessionFactory.getCurrentSession()

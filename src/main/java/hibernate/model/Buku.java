@@ -32,7 +32,7 @@ public class Buku {
     @Column(name = "IS_PINJAM")
     private boolean isPinjam;
     
-    @OneToOne(mappedBy="buku")
+    @OneToOne(mappedBy="buku", cascade = CascadeType.PERSIST)
     private Peminjam pinjam;
 
     //@OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
@@ -71,6 +71,15 @@ public class Buku {
         this.isPinjam = isPinjam;
     }
 
+    public Peminjam getPinjam() {
+        return pinjam;
+    }
+
+    public void setPinjam(Peminjam pinjam) {
+        this.pinjam = pinjam;
+    }
+
+    
     @Override
     public String toString() {
         return "Buku{" + "id= " + id + ", title= " + title + ", author= " + author + ", Sedang dipinjam ?= " + isPinjam + ", peminjam= " + pinjam.getNama() + '}';

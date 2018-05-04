@@ -78,20 +78,27 @@ public class PerpustakaanDao {
                 .setParameter("id", id);
         return (Buku) query.list().get(0);
     }
-/*
+
+    /*
     @Transactional(readOnly = false)
     public void hapusPeminjamHibernate(Perpustakaan perpus) {
         sessionFactory.getCurrentSession().createQuery("delete from Book a where a.perpustakaan.idPerpustakaan = :id")
                 .setParameter("id", perpus.IdPerpustakaan()).executeUpdate();
         sessionFactory.getCurrentSession().delete(perpus);
-*/
+     */
     @Transactional(readOnly = false)
     public void hapusPeminjamHibernate(Peminjam peminjam) {
         sessionFactory.getCurrentSession().createQuery("delete from Peminjam p where p.buku.id = :id")
                 .setParameter("id", peminjam.getId()).executeUpdate();
         sessionFactory.getCurrentSession().delete(peminjam);
-        
-       
+
+    }
+
+    @Transactional(readOnly = false)
+    public List<Buku> listBuku() {
+        List<Buku> bukuList = sessionFactory.getCurrentSession().createQuery("from Buku b inner JOIN Peminjam p ON "
+                + "b.id = p.buku.id").list();
+        return bukuList;
     }
 
 }

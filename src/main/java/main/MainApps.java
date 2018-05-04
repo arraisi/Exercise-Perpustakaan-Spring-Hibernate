@@ -89,6 +89,7 @@ public class MainApps {
                 System.out.println(map.toString1());
             }
         }
+
 //PINJAM BUKU
         System.out.print(" Ingin Pinjam Buku ? (jawab dengan true/false : ");
         isTambah = input.nextBoolean();
@@ -120,7 +121,7 @@ public class MainApps {
             System.out.println("Masukan ID Peminjam : ");
             Integer idPeminjam = input.nextInt();
             Peminjam peminjam = perpustakaanDao.findByIdPeminjam(idPeminjam);
-            System.out.println("Masukan Peminjam : ");
+            System.out.println("Masukan Nama Peminjam : ");
             peminjam.setNama(input.next());
             System.out.println("Masukan ID Buku Yang Ingin di Pinjam : ");
             idBuku = input.nextInt();
@@ -135,9 +136,20 @@ public class MainApps {
                 System.out.println("Buku Tidak Tersedia");
             }
 
-            System.out.print(" Update data peminjam kembali ?(jawab dengan true/false : ");
+            System.out.print(" Ingin Mengembalikan Buku ?(jawab dengan true/false : ");
             isTambah = input.nextBoolean();
+            while (isTambah) {
+                System.out.println("Masukan ID Buku Yang Ingin di Kembalikan : ");
+                idBuku = input.nextInt();
+                buku = perpustakaanDao.findByIdBuku(idBuku);
+                buku.setIsPinjam(false);
+                perpustakaanDao.simpanBuku(buku);
+                System.out.print(" Ingin Update data peminjam kembali ?(jawab dengan true/false : ");
+                isTambah = input.nextBoolean();
+            }
+
         }
+
 //DELETE PEMINJAM
         System.out.print(" Ingin Delete Data Peminjam ? (jawab dengan true/false : ");
         isTambah = input.nextBoolean();
@@ -149,15 +161,14 @@ public class MainApps {
             Peminjam peminjam = perpustakaanDao.findByIdPeminjam(idPeminjam);
             peminjam.getBuku().getId();
             //set id buku yang sudah didapat menjadi false status pinjamnya
-            perpustakaanDao.hapusPeminjamHibernate(peminjam);
             peminjam.getBuku().setIsPinjam(false);
-            perpustakaanDao.simpanBuku(buku);
+            perpustakaanDao.simpanPeminjam(peminjam);
+            perpustakaanDao.hapusPeminjamHibernate(peminjam);
+
             //perpustakaanDao.deletePeminjam(peminjam);
             System.out.print(" Delete data peminjam kembali ?(jawab dengan true/false : ");
             isTambah = input.nextBoolean();
         }
-        
-    
 
     }
 

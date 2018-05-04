@@ -10,7 +10,9 @@ import hibernate.dao.PerpustakaanDao;
 import hibernate.model.Buku;
 import hibernate.model.Peminjam;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -147,12 +149,15 @@ public class MainApps {
             Peminjam peminjam = perpustakaanDao.findByIdPeminjam(idPeminjam);
             peminjam.getBuku().getId();
             //set id buku yang sudah didapat menjadi false status pinjamnya
+            perpustakaanDao.hapusPeminjamHibernate(peminjam);
             peminjam.getBuku().setIsPinjam(false);
             perpustakaanDao.simpanBuku(buku);
-            perpustakaanDao.deletePeminjam(peminjam);
+            //perpustakaanDao.deletePeminjam(peminjam);
             System.out.print(" Delete data peminjam kembali ?(jawab dengan true/false : ");
             isTambah = input.nextBoolean();
         }
+        
+    
 
     }
 

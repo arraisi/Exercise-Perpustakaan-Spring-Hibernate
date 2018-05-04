@@ -26,7 +26,7 @@ public class Peminjam {
 	@Column(name = "NAMA", length = 70)
 	private String nama;
 	
-	@OneToOne( cascade=CascadeType.ALL)
+	@OneToOne( cascade=CascadeType.PERSIST)
 	@JoinColumn(name="ID_BUKU_DIPINJAM_FK")
 	private Buku buku;
 

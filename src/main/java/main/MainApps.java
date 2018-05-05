@@ -9,6 +9,7 @@ import hibernate.config.KonfigurasiApps;
 import hibernate.dao.PerpustakaanDao;
 import hibernate.model.Buku;
 import hibernate.model.Peminjam;
+import hibernate.model.Perpustakaan;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +17,6 @@ import java.util.Map;
 import java.util.Scanner;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-/**
- *
- * @author arrai
- */
 public class MainApps {
 
     public static void main(String[] args) {
@@ -32,6 +29,18 @@ public class MainApps {
         Scanner input = new Scanner(System.in);
         PerpustakaanDao perpustakaanDao = ctx.getBean(PerpustakaanDao.class);
         Integer idBuku;
+
+//SIMPAN BUKU 
+        System.out.print(" Tambah data perpustakaan baru kembali ?(jawab dengan true/false : ");
+        isTambah = input.nextBoolean();
+        while (isTambah) {
+            Perpustakaan perpus = new Perpustakaan();
+            System.out.println("Masukan Nama Perpustakaan : ");
+            perpus.setNamaPerpus(input.next());
+            perpustakaanDao.simpanPerpustakaan(perpus);
+            System.out.print(" Tambah data perpustakaan baru kembali ?(jawab dengan true/false : ");
+            isTambah = input.nextBoolean();
+        }
 //SIMPAN BUKU 
         System.out.print(" Tambah data buku baru kembali ?(jawab dengan true/false : ");
         isTambah = input.nextBoolean();
@@ -41,11 +50,19 @@ public class MainApps {
             buku.setTitle(input.next());
             System.out.println("Masukan Pengarang : ");
             buku.setAuthor(input.next());
-            buku.setIsPinjam(false);
+            buku.setIsPinjam(false);;
+            System.out.println("Masukan ID Perpustakaan : ");
+            Integer idPerpus = input.nextInt();
+            Perpustakaan perpus = perpustakaanDao.findByIdPerpus(idPerpus);
+            buku.setPerpus(perpus);
+            perpustakaanDao.simpanPerpustakaan(perpus);
             perpustakaanDao.simpanBuku(buku);
+
             System.out.print(" Tambah data buku baru kembali ?(jawab dengan true/false : ");
             isTambah = input.nextBoolean();
         }
+
+// SIMPAN PERPUSTAKAAN      
 //UPDATE BUKU
         System.out.print(" Ingin Update Buku ? (jawab dengan true/false : ");
         isTambah = input.nextBoolean();
@@ -58,11 +75,17 @@ public class MainApps {
             buku.setTitle(input.next());
             System.out.println("Masukan Pengarang Baru : ");
             buku.setAuthor(input.next());
+            System.out.println("Masukan ID Perpustakaan : ");
+            Integer idPerpus = input.nextInt();
+            Perpustakaan perpus = perpustakaanDao.findByIdPerpus(idPerpus);
+            buku.setPerpus(perpus);
+            //perpustakaanDao.simpanPerpustakaan(perpus);
             perpustakaanDao.simpanBuku(buku);
             System.out.print(" Update data buku kembali ?(jawab dengan true/false : ");
             isTambah = input.nextBoolean();
         }
 //DELETE BUKU
+
         System.out.print(" Ingin Delete Buku ? (jawab dengan true/false : ");
         isTambah = input.nextBoolean();
         while (isTambah) {

@@ -29,16 +29,25 @@ public class Buku {
     @Column(name = "PENGARANG", length = 100)
     private String author;
 
-    @Column(name = "IS_PINJAM")
+    @Column(name = "DI_PINJAM")
     private boolean isPinjam;
-    
-    @OneToOne(mappedBy="buku", cascade = CascadeType.PERSIST)
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "ID_PERPUSTAKAAN_FK")
+    private Perpustakaan perpus;
+
+    @OneToOne(mappedBy = "buku", cascade = CascadeType.PERSIST)
     private Peminjam pinjam;
 
-    //@OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
-   // @JoinColumn(name = "ID_PERPUS")
-   // private Perpustakaan perpustakaan;
+    public Perpustakaan getPerpus() {
+        return perpus;
+    }
 
+    public void setPerpus(Perpustakaan perpus) {
+        this.perpus = perpus;
+    }
+
+    
     public int getId() {
         return id;
     }
@@ -86,8 +95,7 @@ public class Buku {
     }
 
     public String toString1() {
-        return "Buku{" + "id= " + id + ", title= " + title + ", author= " + author + ", Sedang dipinjam ?= " + isPinjam +  '}';
+        return "Buku{" + "id= " + id + ", title= " + title + ", author= " + author + ", Sedang dipinjam ?= " + isPinjam + '}';
     }
-    
-    
+
 }

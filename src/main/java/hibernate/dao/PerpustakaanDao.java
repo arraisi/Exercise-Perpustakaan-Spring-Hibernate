@@ -7,6 +7,7 @@ package hibernate.dao;
 
 import hibernate.model.Buku;
 import hibernate.model.Peminjam;
+import hibernate.model.Perpustakaan;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +22,32 @@ public class PerpustakaanDao {
 
     @Autowired
     private SessionFactory sessionFactory;
+//=====================================================================================================================
+//PERPUSTAKAAN
+    //SAVE OR UPDATE PERPUSTAKAAN
 
+    @Transactional(readOnly = false)
+    public void simpanPerpustakaan(Perpustakaan perpus) {
+        sessionFactory.getCurrentSession().saveOrUpdate(perpus);
+    }
+
+    //DELETE PERPUSTAKAAN
+    @Transactional(readOnly = false)
+    public void deletePerpustakaan(Perpustakaan perpus) {
+        sessionFactory.getCurrentSession().delete(perpus);
+    }
+
+    //FIND BY ID PEMINJAM    
+    @Transactional(readOnly = true)
+    public Perpustakaan findByIdPerpus(int id) {
+        Query query = sessionFactory.getCurrentSession()
+                .createQuery("FROM Perpustakaan p WHERE p.idPerpustakaan = :id ")
+                .setParameter("id", id);
+        return (Perpustakaan) query.list().get(0);
+    }
+//=====================================================================================================================    
 //PEMINJAM
+
     @Transactional(readOnly = true)
     public List<Peminjam> findAllPeminjam() {
         Query query = sessionFactory.getCurrentSession().createQuery("from Peminjam");
@@ -49,9 +74,10 @@ public class PerpustakaanDao {
     public void deletePeminjam(Peminjam peminjam) {
         sessionFactory.getCurrentSession().delete(peminjam);
     }
-
+//=====================================================================================================================
 //BUKU   
 //FIND ALL BUKU
+
     @Transactional(readOnly = true)
     public List<Buku> findAllBuku() {
         Query query = sessionFactory.getCurrentSession().createQuery("from Buku");
